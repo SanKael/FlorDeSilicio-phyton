@@ -5,7 +5,7 @@ Aquí cultivo scripts, programas y proyectos para crecer como programador paso a
 
 ## 🚀 Proyectos actuales
 
-- `Hola Mundo.py` — Mi primer script.
+- `HolaMundo.py` — Mi primer script.
 - *(Más por venir)*
 
 ## 📌 Objetivo
