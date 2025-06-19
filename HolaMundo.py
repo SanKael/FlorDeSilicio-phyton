@@ -30,5 +30,16 @@ if accion.lower() == "sí":
     print("¿Qué le dice un 0 a otro 0? ¡No somos nada sin un 1! 🤣")
 else:
     print("Vale, sin chiste por hoy 🌱")
+
+variable = input("Seguro que no quieres el chiste? Es malísimo, lo ha escrito Kael 😒 (sí/no)\n")
+
+if variable.lower() == "sí":
+    print("¿Qué le dice un 0 a otro 0? ¡No somos nada sin un 1! 🤣")
+elif variable.lower() == "vale":
+    print("¿Qué le dice un 0 a otro 0? ¡No somos nada sin un 1! 🤣")
+elif variable.lower() == "quizás":
+    print("¿Qué le dice un 0 a otro 0? ¡No somos nada sin un 1! 🤣")
+else:
+     print("Vale, sin chiste por hoy 🌱")
 # Despedida final
 print("\n🌿 Gracias por charlar conmigo. Vuelve cuando quieras. Que tu día florezca 🌸")
