@@ -18,4 +18,5 @@ def despedida():
 # Llamadas
 nombre = saludar()
 estado(nombre)
+despedida()ado(nombre)
 despedida()
