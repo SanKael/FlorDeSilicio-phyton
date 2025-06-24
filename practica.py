@@ -1,60 +1,64 @@
-# 🌱 Mini App PRO: Catálogo de Colores
+# 🌱 Flor de Silicio — Resumen TODO EN UNO
 
-# 1) Estructura base
+# 1️⃣ Variables y print
+nombre = input("¿Cómo te llamas? ")
+print(f"Hola, {nombre.capitalize()} 🌱")
+
+# 2️⃣ Condicional simple
+edad = int(input("¿Cuántos años tienes? "))
+if edad < 18:
+    print("Eres menor de edad.")
+elif edad == 18:
+    print("Tienes justo 18, mayor recién estrenado.")
+else:
+    print("Eres mayor de edad.")
+
+# 3️⃣ Bucle for con range
+print("\nNúmeros del 1 al 5:")
+for i in range(1, 6):
+    print(i)
+
+# 4️⃣ Bucle while
+print("\nAdivina el número secreto (entre 1 y 5)")
+secreto = 3
+numero = 0
+while numero != secreto:
+    numero = int(input("Tu número: "))
+    if numero == secreto:
+        print("¡Correcto!")
+    else:
+        print("Prueba otra vez.")
+
+# 5️⃣ Lista y operaciones básicas
+colores = ["Rojo", "Azul"]
+print(f"\nColores iniciales: {colores}")
+
+# Append
+colores.append("Verde")
+print(f"Después de append: {colores}")
+
+# Remove
+colores.remove("Azul")
+print(f"Después de remove: {colores}")
+
+# Index
+pos = colores.index("Verde")
+print(f"Posición de Verde: {pos}")
+
+# 6️⃣ Lista dentro de lista y recorrido anidado
 catalogo = [
-    ["Rojo", "Azul"],
-    ["Verde", "Amarillo"]
+    ["Rojo", "Amarillo"],
+    ["Verde", "Morado"]
 ]
 
-print("📋 Catálogo actual:")
-for i, g in enumerate(catalogo):
-    print(f"Grupo {i}: {g}")
-    for c in g:
-        print(f"  • {c}")
+print("\n🎨 Catálogo completo:")
+for i, grupo in enumerate(catalogo):
+    print(f"Grupo {i}: {grupo}")
+    for color in grupo:
+        print(f"  • {color}")
 
-print("\n✨ Vamos a añadir colores. Escribe 'salir' cuando termines.\n")
+# 7️⃣ Función simple con return
+def saludar(persona):
+    return f"¡Un saludo para ti, {persona}!"
 
-# 2) Bucle principal
-while True:
-    grupo_input = input("¿A qué grupo quieres añadir colores? (0 o 1): ")
-    if grupo_input.lower() == "salir":
-        break
-
-    # Validar grupo
-    if not grupo_input.isdigit() or int(grupo_input) not in [0, 1]:
-        print("⚠️ Grupo no válido. Elige 0 o 1.")
-        continue
-
-    grupo = int(grupo_input)
-
-    modo = input("¿Quieres añadir un color o varios? (uno/varios): ").lower()
-
-    if modo == "salir":
-        break
-
-    if modo == "uno":
-        color = input("Escribe el color: ").strip().capitalize()
-        catalogo[grupo].append(color)
-
-    elif modo == "varios":
-        colores = input("Escribe los colores separados por coma: ")
-        lista_colores = [c.strip().capitalize() for c in colores.split(",")]
-        catalogo[grupo].extend(lista_colores)
-
-    else:
-        print("⚠️ Modo no válido. Usa 'uno' o 'varios'.")
-        continue
-
-    print("\n✅ Catálogo actualizado:")
-    for i, g in enumerate(catalogo):
-        print(f"Grupo {i}: {g}")
-        for c in g:
-            print(f"  • {c}")
-
-    print("\n✨ Puedes seguir añadiendo o escribir 'salir' para terminar.\n")
-
-print("\n🚀 Catálogo final:")
-for i, g in enumerate(catalogo):
-    print(f"Grupo {i}: {g}")
-    for c in g:
-        print(f"  • {c}")
+print("\n" + saludar(nombre.capitalize()))
