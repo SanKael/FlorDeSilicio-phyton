@@ -18,7 +18,13 @@ def mostrar_criaturas(lista):
 
 def buscar_criatura(lista, nombre):
     return nombre in lista
-    
+
+def borrar_criatura(lista, nombre):
+    if nombre in lista:
+        lista.remove(nombre)
+        return True
+    return False
+
 # Lista donde guardaremos las criaturas
 criaturas = []
 
@@ -46,7 +52,19 @@ while True:
 
     elif opcion == "2":
         print("👉 Opción: Borrar criatura")
-        # aquí pondremos el código para borrar
+        if not criaturas:
+            print("🌫️ No hay criaturas para borrar.")
+        else:
+            mostrar_criaturas(criaturas)
+            try:
+                nombre = input("\n¿Qué criatura quieres borrar?: ").strip().lower()
+                if nombre in criaturas:
+                    criaturas.remove(nombre)
+                    print(f"🗑️ {nombre.capitalize()} ha sido liberada de tu colección.")
+                else:
+                    print(f"❌ {nombre.capitalize()} no está en tu lista.")
+            except ValueError:
+                print("Error al procesar el nombre.")
     elif opcion == "3":
         nombre = input("🔍 Nombre de la criatura a buscar: ").strip().lower()
         if buscar_criatura(criaturas, nombre):
@@ -59,6 +77,11 @@ while True:
 
     elif opcion == "5":
         print("👋 Saliendo del programa. ¡Hasta la próxima!")
+        print("\n🧚‍♂️ Lista final de criaturas:")
+        mostrar_criaturas(criaturas)
+        print("🌙 Programa finalizado.")
+
         break
+    
     else:
         print("⚠️ Opción no válida. Por favor, introduce un número del 1 al 5.")
