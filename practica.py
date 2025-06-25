@@ -1,64 +1,64 @@
-# 🌱 Flor de Silicio — Resumen TODO EN UNO
+# Flor de Silicio · Sesión 4 – Gestión de Criaturas Mágicas 🐉✨
 
-# 1️⃣ Variables y print
-nombre = input("¿Cómo te llamas? ")
-print(f"Hola, {nombre.capitalize()} 🌱")
+def mostrar_menu():
+    print("\n🌟 Menú de opciones:")
+    print("1. Añadir criatura")
+    print("2. Borrar criatura")
+    print("3. Buscar criatura")
+    print("4. Mostrar todas las criaturas")
+    print("5. Salir")
 
-# 2️⃣ Condicional simple
-edad = int(input("¿Cuántos años tienes? "))
-if edad < 18:
-    print("Eres menor de edad.")
-elif edad == 18:
-    print("Tienes justo 18, mayor recién estrenado.")
-else:
-    print("Eres mayor de edad.")
-
-# 3️⃣ Bucle for con range
-print("\nNúmeros del 1 al 5:")
-for i in range(1, 6):
-    print(i)
-
-# 4️⃣ Bucle while
-print("\nAdivina el número secreto (entre 1 y 5)")
-secreto = 3
-numero = 0
-while numero != secreto:
-    numero = int(input("Tu número: "))
-    if numero == secreto:
-        print("¡Correcto!")
+def mostrar_criaturas(lista):
+    if not lista:
+        print("🌫️ No hay criaturas registradas todavía.")
     else:
-        print("Prueba otra vez.")
+        print("\n📜 Tu colección de criaturas:")
+        for i, criatura in enumerate(sorted(lista), 1):
+            print(f"{i}. {criatura.capitalize()}")
 
-# 5️⃣ Lista y operaciones básicas
-colores = ["Rojo", "Azul"]
-print(f"\nColores iniciales: {colores}")
+def buscar_criatura(lista, nombre):
+    return nombre in lista
+    
+# Lista donde guardaremos las criaturas
+criaturas = []
 
-# Append
-colores.append("Verde")
-print(f"Después de append: {colores}")
+# Inicio del programa
+print("🌱 Bienvenido/a al Gestor de Criaturas Mágicas 🧙‍♂️")
+print("Usa el menú para interactuar con tu colección.\n")
 
-# Remove
-colores.remove("Azul")
-print(f"Después de remove: {colores}")
+while True:
+    mostrar_menu()
+    opcion = input("Elige una opción (1-5): ")
 
-# Index
-pos = colores.index("Verde")
-print(f"Posición de Verde: {pos}")
+    if opcion == "1":
+        print("👉 Opción: Añadir criatura")
+        try:
+            nueva = input("Introduce el nombre de la criatura: ").strip().lower()
+            if not nueva:
+                raise ValueError("El nombre no puede estar vacío.")
+            if nueva in criaturas:
+                print("⚠️ Esa criatura ya está en tu lista.")
+            else:
+                criaturas.append(nueva)
+                print(f"✅ {nueva.capitalize()} añadida correctamente.")
+        except ValueError as ve:
+            print(f"Error: {ve}")
 
-# 6️⃣ Lista dentro de lista y recorrido anidado
-catalogo = [
-    ["Rojo", "Amarillo"],
-    ["Verde", "Morado"]
-]
+    elif opcion == "2":
+        print("👉 Opción: Borrar criatura")
+        # aquí pondremos el código para borrar
+    elif opcion == "3":
+        nombre = input("🔍 Nombre de la criatura a buscar: ").strip().lower()
+        if buscar_criatura(criaturas, nombre):
+            print(f"✅ {nombre.capitalize()} está en tu colección.")
+        else:
+            print(f"❌ {nombre.capitalize()} no está en la lista.")
 
-print("\n🎨 Catálogo completo:")
-for i, grupo in enumerate(catalogo):
-    print(f"Grupo {i}: {grupo}")
-    for color in grupo:
-        print(f"  • {color}")
+    elif opcion == "4":
+        mostrar_criaturas(criaturas)
 
-# 7️⃣ Función simple con return
-def saludar(persona):
-    return f"¡Un saludo para ti, {persona}!"
-
-print("\n" + saludar(nombre.capitalize()))
+    elif opcion == "5":
+        print("👋 Saliendo del programa. ¡Hasta la próxima!")
+        break
+    else:
+        print("⚠️ Opción no válida. Por favor, introduce un número del 1 al 5.")
