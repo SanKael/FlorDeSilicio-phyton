@@ -1,3 +1,7 @@
+from colorama import Fore, Style, init
+import json
+
+init(autoreset=True)
 
 criaturas = []
 
@@ -7,7 +11,7 @@ def añadir_criatura(lista):
         if not nombre:
             raise ValueError("El nombre no puede estar vacío.")
         if any(c["nombre"] == nombre for c in lista):
-            print("⚠️ Ya existe una criatura con ese nombre.")
+            print(Fore.RED + "⚠️ Ya existe una criatura con ese nombre.")
             return
 
         tipo = input("Tipo de criatura: ").strip().lower()
@@ -24,20 +28,22 @@ def añadir_criatura(lista):
             "nivel": int(nivel)
         }
         lista.append(criatura)
-        print(f"✅ Criatura '{nombre}' añadida con éxito.")
+        print(Fore.GREEN + f"✅ Criatura '{nombre}' añadida con éxito.")
     except ValueError as ve:
-        print(f"Error: {ve}")
+        print(Fore.RED + f"Error: {ve}")
+
 
 def buscar_criatura(lista):
     nombre = input("🔎 Nombre de la criatura a buscar: ").strip().lower()
     for criatura in lista:
         if criatura["nombre"] == nombre:
-            print("\n📌 Criatura encontrada:")
+            print(Fore.BLUE + "\n📌 Criatura encontrada:")
             print(f"- Nombre: {criatura['nombre'].capitalize()}")
             print(f"- Tipo: {criatura['tipo'].capitalize()}")
             print(f"- Nivel: {criatura['nivel']}")
             return
-    print("❌ No se encontró ninguna criatura con ese nombre.")
+    print(Fore.RED + "❌ No se encontró ninguna criatura con ese nombre.")
+
 
 def eliminar_criatura(lista):
     nombre = input("🗑️ Nombre de la criatura a eliminar: ").strip().lower()
@@ -47,66 +53,72 @@ def eliminar_criatura(lista):
             confirmacion = input("Escribe 'sí' para confirmar: ").strip().lower()
             if confirmacion == "sí":
                 lista.remove(criatura)
-                print(f"✅ '{nombre}' ha sido eliminada.")
+                print(Fore.GREEN + f"✅ '{nombre}' ha sido eliminada.")
             else:
-                print("❎ Eliminación cancelada.")
+                print(Fore.YELLOW + "❎ Eliminación cancelada.")
             return
-    print("❌ No se encontró ninguna criatura con ese nombre.")
+    print(Fore.RED + "❌ No se encontró ninguna criatura con ese nombre.")
+
 
 def mostrar_todas(lista):
     if not lista:
-        print("🌫️ No hay criaturas registradas.")
+        print(Fore.YELLOW + "🌫️ No hay criaturas registradas.")
     else:
-        print("\n📜 Tu colección de criaturas:")
+        print(Fore.MAGENTA + "\n📜 Tu colección de criaturas:")
         for i, criatura in enumerate(lista, 1):
-            print(f"{i}. {criatura['nombre'].capitalize():20} | Tipo: {criatura['tipo'].capitalize():10} | Nivel: {criatura['nivel']}")
+            nombre = criatura['nombre']
+            tipo = criatura['tipo']
+            nivel = criatura['nivel']
 
-def cargar_desde_archivo(lista, archivo="criaturas.txt"):
+            if nombre == "sofía la luminosa":
+                color = Fore.LIGHTWHITE_EX + Style.BRIGHT
+            elif nombre == "pepino astral":
+                color = Fore.GREEN + Style.BRIGHT
+            else:
+                color = Fore.CYAN
+
+            print(color + f"{i}. {nombre.capitalize():20} | Tipo: {tipo.capitalize():15} | Nivel: {nivel}")
+
+
+def cargar_desde_json(lista, archivo="criaturas.json"):
     try:
         with open(archivo, "r", encoding="utf-8") as f:
-            for linea in f:
-                partes = linea.strip().split(",")
-                if len(partes) != 3:
-                    continue
-                nombre, tipo, nivel = partes
-                if not nivel.isdigit():
-                    continue
-                criatura = {
-                    "nombre": nombre.strip().lower(),
-                    "tipo": tipo.strip().lower(),
-                    "nivel": int(nivel)
-                }
+            datos = json.load(f)
+            for criatura in datos:
                 if not any(c["nombre"] == criatura["nombre"] for c in lista):
                     lista.append(criatura)
-        print("✅ Datos cargados correctamente.")
+        print(Fore.GREEN + "✅ Datos cargados desde JSON correctamente.")
     except FileNotFoundError:
-        print("⚠️ Archivo no encontrado. Aún no hay datos guardados.")
+        print(Fore.YELLOW + "⚠️ Archivo JSON no encontrado.")
+    except json.JSONDecodeError:
+        print(Fore.RED + "❌ Error de formato en el JSON.")
 
-def guardar_en_archivo(lista, archivo="criaturas.txt"):
+
+def guardar_en_json(lista, archivo="criaturas.json"):
     try:
         with open(archivo, "w", encoding="utf-8") as f:
-            for criatura in lista:
-                linea = f"{criatura['nombre']},{criatura['tipo']},{criatura['nivel']}\n"
-                f.write(linea)
-        print("💾 Datos guardados correctamente.")
+            json.dump(lista, f, indent=4, ensure_ascii=False)
+        print(Fore.GREEN + "💾 Datos guardados en JSON correctamente.")
     except Exception as e:
-        print(f"❌ Error al guardar: {e}")
+        print(Fore.RED + f"❌ Error al guardar en JSON: {e}")
+
 
 def mostrar_menu():
-    print("\n🌟 Menú de opciones:")
-    print("1. Añadir criatura")
+    print(Fore.YELLOW + Style.BRIGHT + "\n🌟 Menú de opciones:")
+    print(Fore.CYAN + "1. Añadir criatura")
     print("2. Buscar criatura")
     print("3. Eliminar criatura")
     print("4. Mostrar todas")
-    print("5. Cargar desde archivo")
-    print("6. Guardar en archivo")
-    print("7. Salir")
+    print("5. Guardar en archivo JSON")
+    print("6. Salir")
 
-cargar_desde_archivo(criaturas)
+
+# Carga automática
+cargar_desde_json(criaturas)
 
 while True:
     mostrar_menu()
-    opcion = input("Elige una opción (1-7): ").strip()
+    opcion = input("Elige una opción (1-6): ").strip()
 
     if opcion == "1":
         print("👉 Añadir criatura")
@@ -121,15 +133,11 @@ while True:
         print("📜 Mostrar todas")
         mostrar_todas(criaturas)
     elif opcion == "5":
-        print("📂 Cargar desde archivo")
-        cargar_desde_archivo(criaturas)
+        print("💾 Guardando en JSON")
+        guardar_en_json(criaturas)
     elif opcion == "6":
-        print("💾 Guardar en archivo")
-        guardar_en_archivo(criaturas)
-    elif opcion == "7":
-        guardar_en_archivo(criaturas)
-        print("👋 Datos guardados. Saliendo del programa. ¡Hasta la próxima!")
+        guardar_en_json(criaturas)
+        print(Fore.CYAN + "👋 Datos guardados. Saliendo del programa. ¡Hasta la próxima!")
         break
-
     else:
-        print("⚠️ Opción no válida.")
+        print(Fore.RED + "⚠️ Opción no válida.")
