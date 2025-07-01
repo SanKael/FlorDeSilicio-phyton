@@ -75,25 +75,3 @@ def mostrar_todas(lista):
 
           print(color + f"{i}. {nombre.capitalize():20} | Tipo: {tipo.capitalize():15} | Nivel: {nivel}")
 
-
-def cargar_desde_json(lista, archivo="criaturas.json"):
-  try:
-      with open(archivo, "r", encoding="utf-8") as f:
-          datos = json.load(f)
-          for criatura in datos:
-              if not any(c["nombre"] == criatura["nombre"] for c in lista):
-                  lista.append(criatura)
-      print(Fore.GREEN + "✅ Datos cargados desde JSON correctamente.")
-  except FileNotFoundError:
-      print(Fore.YELLOW + "⚠️ Archivo JSON no encontrado.")
-  except json.JSONDecodeError:
-      print(Fore.RED + "❌ Error de formato en el JSON.")
-
-
-def guardar_en_json(lista, archivo="criaturas.json"):
-  try:
-      with open(archivo, "w", encoding="utf-8") as f:
-          json.dump(lista, f, indent=4, ensure_ascii=False)
-      print(Fore.GREEN + "💾 Datos guardados en JSON correctamente.")
-  except Exception as e:
-      print(Fore.RED + f"❌ Error al guardar en JSON: {e}")

@@ -1,4 +1,4 @@
-from utils import (
+from data/utils import (
     añadir_criatura,
     buscar_criatura,
     eliminar_criatura,
@@ -6,7 +6,7 @@ from utils import (
     cargar_desde_json,
     guardar_en_json
 )
-
+from core.file_handler import guardar_en_json, cargar_desde_json
 def mostrar_menu():
   print(Fore.YELLOW + Style.BRIGHT + "\n🌟 Menú de opciones:")
   print(Fore.CYAN + "1. Añadir criatura")
