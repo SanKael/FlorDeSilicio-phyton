@@ -1,25 +1,24 @@
-from data/utils import (
+
+from colorama import Fore, Style, init
+import json
+from modules.utils import (
     añadir_criatura,
     buscar_criatura,
     eliminar_criatura,
-    mostrar_todas,
-    cargar_desde_json,
-    guardar_en_json
+    mostrar_todas
 )
 from core.file_handler import guardar_en_json, cargar_desde_json
-def mostrar_menu():
-  print(Fore.YELLOW + Style.BRIGHT + "\n🌟 Menú de opciones:")
-  print(Fore.CYAN + "1. Añadir criatura")
-  print("2. Buscar criatura")
-  print("3. Eliminar criatura")
-  print("4. Mostrar todas")
-  print("5. Guardar en archivo JSON")
-  print("6. Salir")
-    
-from colorama import Fore, Style, init
-import json
 
 init(autoreset=True)
+
+def mostrar_menu():
+    print(Fore.YELLOW + Style.BRIGHT + "\n🌟 Menú de opciones:")
+    print(Fore.CYAN + "1. Añadir criatura")
+    print("2. Buscar criatura")
+    print("3. Eliminar criatura")
+    print("4. Mostrar todas")
+    print("5. Guardar en archivo JSON")
+    print("6. Salir")
 
 criaturas = []
 
