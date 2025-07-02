@@ -1,15 +1,5 @@
 [
   {
-    "nombre": "san",
-    "tipo": "triste",
-    "nivel": 2
-  },
-  {
-    "nombre": "mierda",
-    "tipo": "basica",
-    "nivel": 9
-  },
-  {
     "nombre": "hiena la eterna",
     "tipo": "perrita",
     "nivel": 12
@@ -18,5 +8,20 @@
     "nombre": "balrog",
     "tipo": "fuego",
     "nivel": 200
+  },
+  {
+    "nombre": "andre",
+    "tipo": "luz",
+    "nivel": 24
+  },
+  {
+    "nombre": "Cubi",
+    "tipo": "hielo",
+    "nivel": 34
+  },
+  {
+    "nombre": "Venti",
+    "tipo": "aire",
+    "nivel": 3
   }
 ]

@@ -1,33 +1,23 @@
-import json
-from colorama import Fore, Style
+from colorama import Fore
+from core.config import TIPO_COLORES, RESET, TIPOS_VALIDOS
 
 def añadir_criatura(lista):
+    nombre = input("Nombre de la criatura: ").strip()
+    tipo = input("Tipo de la criatura: ").strip().lower()
+
+    if tipo not in TIPOS_VALIDOS:
+        print(Fore.RED + f"❌ Tipo no válido. Tipos permitidos: {', '.join(TIPOS_VALIDOS)}")
+        return
+
     try:
-        nombre = input("Nombre de la criatura: ").strip().lower()
-        if not nombre:
-            raise ValueError("El nombre no puede estar vacío.")
-        if any(c["nombre"] == nombre for c in lista):
-            print(Fore.RED + "⚠️ Ya existe una criatura con ese nombre.")
-            return
+        nivel = int(input("Nivel de la criatura: "))
+    except ValueError:
+        print(Fore.RED + "⚠️ El nivel debe ser un número entero.")
+        return
 
-        tipo = input("Tipo de criatura: ").strip().lower()
-        if not tipo:
-            raise ValueError("El tipo no puede estar vacío.")
-
-        nivel = input("Nivel (entero positivo): ").strip()
-        if not nivel.isdigit() or int(nivel) <= 0:
-            raise ValueError("El nivel debe ser un número entero positivo.")
-
-        criatura = {
-            "nombre": nombre,
-            "tipo": tipo,
-            "nivel": int(nivel)
-        }
-        lista.append(criatura)
-        print(Fore.GREEN + f"✅ Criatura '{nombre}' añadida con éxito.")
-    except ValueError as ve:
-        print(Fore.RED + f"Error: {ve}")
-
+    criatura = {"nombre": nombre, "tipo": tipo, "nivel": nivel}
+    lista.append(criatura)
+    print(Fore.GREEN + f"✅ Criatura '{nombre}' añadida correctamente.")
 
 def buscar_criatura(lista):
     nombre = input("🔎 Nombre de la criatura a buscar: ").strip().lower()
@@ -39,7 +29,6 @@ def buscar_criatura(lista):
             print(f"- Nivel: {criatura['nivel']}")
             return
     print(Fore.RED + "❌ No se encontró ninguna criatura con ese nombre.")
-
 
 def eliminar_criatura(lista):
     nombre = input("🗑️ Nombre de la criatura a eliminar: ").strip().lower()
@@ -55,36 +44,17 @@ def eliminar_criatura(lista):
             return
     print(Fore.RED + "❌ No se encontró ninguna criatura con ese nombre.")
 
-
 def mostrar_todas(lista):
     if not lista:
         print(Fore.YELLOW + "🌫️ No hay criaturas registradas.")
-    else:
-        print(Fore.MAGENTA + "\n📜 Tu colección de criaturas:")
-        for i, criatura in enumerate(lista, 1):
-            nombre = criatura['nombre']
-            tipo = criatura['tipo']
-            nivel = criatura['nivel']
-            color = obtener_color_por_tipo(tipo)
+        return
 
-            print(color + f"{i}. {nombre.capitalize():20} | Tipo: {tipo.capitalize():15} | Nivel: {nivel}")
+    print(Fore.LIGHTMAGENTA_EX + "\n📜 Lista completa de criaturas:" + RESET)
+    for i, criatura in enumerate(lista, 1):
+        tipo = criatura["tipo"]
+        color = TIPO_COLORES.get(tipo, Fore.LIGHTWHITE_EX)
+        print(f"{color}{i}. {criatura['nombre'].capitalize()} (Nivel {criatura['nivel']}) - Tipo: {tipo.capitalize()}{RESET}")
 
-
-# 🎨 Paleta de colores por tipo
-def obtener_color_por_tipo(tipo):
-    tipo = tipo.lower()
-    if tipo == "fuego":
-        return Fore.RED
-    elif tipo == "agua":
-        return Fore.CYAN
-    elif tipo == "sombra":
-        return Fore.MAGENTA
-    elif tipo == "tierra":
-        return Fore.YELLOW
-    elif tipo == "legendaria":
-        return Fore.LIGHTWHITE_EX + Style.BRIGHT
-    else:
-        return Fore.WHITE
 def mostrar_por_tipo(lista):
     if not lista:
         print(Fore.YELLOW + "🌫️ No hay criaturas registradas.")
@@ -100,8 +70,12 @@ def mostrar_por_tipo(lista):
 
     if criaturas_filtradas:
         print(Fore.MAGENTA + f"\n📜 Criaturas del tipo '{tipo_buscar.capitalize()}':")
+        color_tipo = TIPO_COLORES.get(tipo_buscar, Fore.WHITE)
+
         for i, criatura in enumerate(criaturas_filtradas, 1):
-            print(Fore.CYAN + f"{i}. {criatura['nombre'].capitalize()} (Nivel {criatura['nivel']})")
+            print(
+                f"{color_tipo}{i}. {criatura['nombre'].capitalize()} "
+                f"(Nivel {criatura['nivel']}){RESET}"
+            )
     else:
         print(Fore.RED + "❌ No se encontraron criaturas de ese tipo.")
-

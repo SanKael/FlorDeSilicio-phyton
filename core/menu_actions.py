@@ -1,13 +1,16 @@
+# core/menu_actions.py
+
+from colorama import Fore
 from modules.utils import (
     añadir_criatura,
     buscar_criatura,
     eliminar_criatura,
-    mostrar_todas
+    mostrar_todas,
+    mostrar_por_tipo
 )
-from core.file_handler import guardar
-from colorama import Fore
+from core.file_handler import guardar_en_json, guardar_en_txt
 
-def ejecutar_opcion(opcion, criaturas):
+def ejecutar_opcion(opcion, criaturas, modo):
     if opcion == "1":
         print("👉 Añadir criatura")
         añadir_criatura(criaturas)
@@ -24,8 +27,16 @@ def ejecutar_opcion(opcion, criaturas):
         print("💾 Guardando en JSON")
         guardar_en_json(criaturas)
     elif opcion == "6":
-        guardar_en_json(criaturas)
+        guardar(criaturas, modo)
         print(Fore.CYAN + "👋 Datos guardados. Saliendo del programa. ¡Hasta la próxima!")
         exit()
     else:
         print(Fore.RED + "⚠️ Opción no válida.")
+
+def guardar(criaturas, modo):
+    if modo == "json":
+        guardar_en_json(criaturas)
+    elif modo == "txt":
+        guardar_en_txt(criaturas)
+    else:
+        print(Fore.RED + "⚠️ Modo de guardado no reconocido.")
