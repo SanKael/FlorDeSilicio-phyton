@@ -6,7 +6,7 @@ from modules.utils import (
     mostrar_todas,
     mostrar_por_tipo
 )
-from core.menu_actions import guardar
+from core.menu_actions import ejecutar_opcion, guardar_datos
 from core.file_handler import guardar_en_json, cargar_desde_json, guardar_en_txt, cargar_desde_txt
 from core.menu import mostrar_menu
 from core.config import DEBUG, DATA_PATH, TIPOS_VALIDOS, TIPO_COLORES, RESET

@@ -24,19 +24,23 @@ def ejecutar_opcion(opcion, criaturas, modo):
         print("📜 Mostrar todas")
         mostrar_todas(criaturas)
     elif opcion == "5":
-        print("💾 Guardando en JSON")
-        guardar_en_json(criaturas)
+        print("📂 Mostrar por tipo")
+        mostrar_por_tipo(criaturas)
     elif opcion == "6":
-        guardar(criaturas, modo)
+        print("💾 Guardando...")
+        guardar_datos(criaturas, modo)
+    elif opcion == "7":
+        guardar_datos(criaturas, modo)
         print(Fore.CYAN + "👋 Datos guardados. Saliendo del programa. ¡Hasta la próxima!")
         exit()
     else:
         print(Fore.RED + "⚠️ Opción no válida.")
 
-def guardar(criaturas, modo):
+def guardar_datos(criaturas, modo):
     if modo == "json":
         guardar_en_json(criaturas)
     elif modo == "txt":
         guardar_en_txt(criaturas)
     else:
         print(Fore.RED + "⚠️ Modo de guardado no reconocido.")
+
