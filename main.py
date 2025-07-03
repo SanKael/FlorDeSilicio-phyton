@@ -64,11 +64,11 @@ while True:
         pausar()
     elif opcion == "6":
         print("💾 Guardando...")
-        guardar(criaturas, modo_actual)
+        guardar_datos(criaturas, modo_actual)
         print(Fore.GREEN + "✅ Datos guardados correctamente.")
         pausar()
     elif opcion == "7":
-        guardar(criaturas, modo_actual)
+        guardar_datos(criaturas, modo_actual)
         print(Fore.CYAN + "👋 Datos guardados. Saliendo del programa. ¡Hasta la próxima!")
         break
     else:

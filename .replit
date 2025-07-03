@@ -16,7 +16,7 @@ run = ["python3", "HolaMundo.py"]
 deploymentTarget = "cloudrun"
 
 [workflows]
-runButton = "Run practica"
+runButton = "Run Criaturas Mágicas"
 
 [[workflows.workflow]]
 name = "Run"
@@ -56,6 +56,15 @@ args = "python3 for_practica.py"
 
 [[workflows.workflow]]
 name = "Run practica"
+author = 42182147
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python3 main.py"
+
+[[workflows.workflow]]
+name = "Run Criaturas Mágicas"
 author = 42182147
 mode = "sequential"
 
