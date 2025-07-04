@@ -23,5 +23,14 @@
     "nombre": "Venti",
     "tipo": "aire",
     "nivel": 3
+  },
+  {
+    "nombre": "Verano",
+    "tipo": "fuego",
+    "nivel": 23,
+    "etiquetas": [
+      "mal",
+      "mal"
+    ]
   }
 ]

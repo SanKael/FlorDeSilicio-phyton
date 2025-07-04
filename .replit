@@ -19,51 +19,6 @@ deploymentTarget = "cloudrun"
 runButton = "Run Criaturas Mágicas"
 
 [[workflows.workflow]]
-name = "Run"
-author = 42182147
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python3 HolaMundo.py"
-
-[[workflows.workflow]]
-name = "Run Animales"
-author = 42182147
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python3 Animales.py"
-
-[[workflows.workflow]]
-name = "Run funciones"
-author = 42182147
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python3 funciones.py"
-
-[[workflows.workflow]]
-name = "Run for_practica"
-author = 42182147
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python3 for_practica.py"
-
-[[workflows.workflow]]
-name = "Run practica"
-author = 42182147
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python3 main.py"
-
-[[workflows.workflow]]
 name = "Run Criaturas Mágicas"
 author = 42182147
 mode = "sequential"

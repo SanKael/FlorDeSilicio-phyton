@@ -1,14 +1,14 @@
-# core/menu.py
-from colorama import Fore
-from core.config import RESET
+from colorama import Fore, Style
 
 def mostrar_menu():
-    print(Fore.LIGHTMAGENTA_EX + "\n🌟 MENÚ PRINCIPAL – Criaturas Mágicas" + RESET)
-    print(Fore.YELLOW + "1. Añadir criatura" + RESET)
-    print(Fore.CYAN + "2. Buscar criatura" + RESET)
-    print(Fore.RED + "3. Eliminar criatura" + RESET)
-    print(Fore.GREEN + "4. Mostrar todas" + RESET)
-    print(Fore.BLUE + "5. Mostrar por tipo" + RESET)
-    print(Fore.MAGENTA + "6. Guardar" + RESET)
-    print(Fore.LIGHTWHITE_EX + "7. Salir" + RESET)
+    print(Fore.LIGHTMAGENTA_EX + "\n╔════════════════════════════╗")
+    print("║    " + Fore.YELLOW + "🧙 MENÚ DE CRIATURAS" + Fore.LIGHTMAGENTA_EX + "    ║")
+    print("╚════════════════════════════╝" + Style.RESET_ALL)
 
+    print(Fore.CYAN + "1." + Fore.WHITE + " Añadir criatura")
+    print(Fore.CYAN + "2." + Fore.WHITE + " Buscar criatura")
+    print(Fore.CYAN + "3." + Fore.LIGHTRED_EX + " Eliminar criatura")  # <- solo el texto va en rojo suave
+    print(Fore.CYAN + "4." + Fore.WHITE + " Mostrar todas")
+    print(Fore.CYAN + "5." + Fore.WHITE + " Mostrar por tipo")
+    print(Fore.CYAN + "6." + Fore.WHITE + " Editar criatura")
+    print(Fore.CYAN + "7." + Fore.WHITE + " Salir" + Style.RESET_ALL)

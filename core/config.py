@@ -2,8 +2,17 @@
 
 from colorama import Fore, Style
 
-# Modo debug (True para mostrar info extra, False para ocultarla)
-DEBUG = True
+DEBUG = False  # Cambia a False si no quieres ver info extra
+RESET = "\033[0m"
+TIPOS_VALIDOS = ["fuego", "agua", "tierra", "aire", "luz", "oscuridad"]
+TIPO_COLORES = {
+    "fuego": "\033[91m",       # rojo
+    "agua": "\033[94m",        # azul
+    "tierra": "\033[92m",      # verde
+    "aire": "\033[96m",        # cian
+    "luz": "\033[93m",         # amarillo
+    "oscuridad": "\033[95m",   # magenta
+}
 
 # Ruta al archivo de datos
 DATA_PATH = "data/criaturas.json"
