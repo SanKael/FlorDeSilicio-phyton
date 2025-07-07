@@ -32,5 +32,16 @@
       "mal",
       "mal"
     ]
+  },
+  {
+    "nombre": "chancleta",
+    "tipo": "veneno",
+    "nivel": 50,
+    "etiquetas": [
+      "peste",
+      "rosa",
+      "suelo",
+      "queso"
+    ]
   }
 ]

@@ -1,29 +1,55 @@
 from colorama import Fore
 from core.config import TIPO_COLORES, RESET, TIPOS_VALIDOS, DEBUG
 
+# 🔧 Función universal para limpiar entradas de texto
+def limpiar_input(texto, formato="lower"):
+    texto = texto.strip()
+    if formato == "lower":
+        return texto.lower()
+    elif formato == "capitalize":
+        return texto.capitalize()
+    elif formato == "title":
+        return texto.title()
+    else:
+        return texto
+# 🔧 Función para validar si el texto contiene al menos un carácter alfanumérico
+def es_input_valido(texto):
+    texto = texto.strip()
+    return any(c.isalnum() for c in texto)
+
+# 🐣 Añadir criatura
 def añadir_criatura(lista):
-    # Nombre (no repetido)
+    print(Fore.LIGHTBLACK_EX + "(Puedes escribir 'cancelar' en cualquier campo para volver atrás)" + RESET)
+
     while True:
-        nombre = input("Nombre de la criatura: ").strip()
-        if not nombre:
-            print(Fore.RED + "❌ El nombre no puede estar vacío.")
+        nombre = limpiar_input(input("Nombre de la criatura: "), "capitalize")
+        if nombre.lower() == "cancelar":
+            print("🚪 Añadir criatura cancelado.")
+            return
+        if not es_input_valido(nombre):
+            print(Fore.RED + "❌ Ese nombre no parece válido. Usa letras o números.")
         elif any(c["nombre"].lower() == nombre.lower() for c in lista):
             print(Fore.RED + f"❌ Ya existe una criatura llamada '{nombre}'. Usa otro nombre.")
         else:
             break
 
-    # Tipo (debe estar en TIPOS_VALIDOS)
     while True:
-        tipo = input("Tipo de la criatura: ").strip().lower()
+        tipo = limpiar_input(input("Tipo de la criatura: "), "lower")
+        if tipo.lower() == "cancelar":
+            print("🚪 Añadir criatura cancelado.")
+            return
         if tipo not in TIPOS_VALIDOS:
             print(Fore.RED + f"❌ Tipo no válido. Tipos permitidos: {', '.join(TIPOS_VALIDOS)}")
         else:
             break
 
-    # Nivel (entre 1 y 100)
     while True:
+        nivel_input = input("Nivel de la criatura (1–100): ").strip()
+        if nivel_input.lower() == "cancelar":
+            print("🚪 Añadir criatura cancelado.")
+            return
         try:
-            nivel = int(input("Nivel de la criatura (1–100): "))
+            nivel = int(nivel_input)
             if 1 <= nivel <= 100:
                 break
             else:
@@ -31,11 +57,12 @@ def añadir_criatura(lista):
         except ValueError:
             print(Fore.RED + "⚠️ El nivel debe ser un número.")
 
-    # Etiquetas opcionales
-    etiquetas_input = input("Etiquetas (separadas por comas, opcional): ").strip()
-    etiquetas = [e.strip().lower() for e in etiquetas_input.split(",") if e.strip()] if etiquetas_input else []
+    etiquetas_input = input("Etiquetas (coma separadas, opcional): ").strip()
+    if etiquetas_input.lower() == "cancelar":
+        print("🚪 Añadir criatura cancelado.")
+        return
+    etiquetas = [limpiar_input(e, "lower") for e in etiquetas_input.split(",") if e.strip()] if etiquetas_input else []
 
-    # Crear criatura
     criatura = {
         "nombre": nombre,
         "tipo": tipo,
@@ -46,17 +73,14 @@ def añadir_criatura(lista):
     lista.append(criatura)
     print(Fore.GREEN + f"✅ Criatura '{nombre}' añadida correctamente con {len(etiquetas)} etiqueta(s).")
 
+# 🔍 Buscar criatura
 def buscar_criatura(lista):
     if not lista:
         print(Fore.YELLOW + "🌫️ No hay criaturas registradas para buscar.")
         return
 
-    termino = input("🔎 Escribe el nombre o parte del nombre de la criatura: ").strip().lower()
-    resultados = []
-
-    for criatura in lista:
-        if termino in criatura["nombre"].lower():
-            resultados.append(criatura)
+    termino = limpiar_input(input("🔎 Escribe el nombre o parte del nombre de la criatura: "), "lower")
+    resultados = [c for c in lista if termino in c["nombre"].lower()]
 
     if resultados:
         print(Fore.CYAN + f"\n🔍 Resultados de búsqueda para '{termino}':")
@@ -69,12 +93,13 @@ def buscar_criatura(lista):
     else:
         print(Fore.RED + f"❌ No se encontraron criaturas que coincidan con '{termino}'.")
 
+# 🗑️ Eliminar criatura
 def eliminar_criatura(lista):
-    nombre = input("Nombre de la criatura a eliminar: ").strip().lower()
+    nombre = limpiar_input(input("Nombre de la criatura a eliminar: "), "lower")
 
     for criatura in lista:
         if criatura["nombre"].lower() == nombre:
-            confirmacion = input(Fore.RED + f"⚠️ ¿Estás seguro de que quieres eliminar '{criatura['nombre']}'? (s/n): " + RESET).strip().lower()
+            confirmacion = limpiar_input(input(Fore.RED + f"⚠️ ¿Estás seguro de que quieres eliminar '{criatura['nombre']}'? (s/n): " + RESET), "lower")
             if confirmacion == "s":
                 lista.remove(criatura)
                 print(Fore.GREEN + f"✅ Criatura '{criatura['nombre']}' eliminada con éxito." + RESET)
@@ -84,6 +109,7 @@ def eliminar_criatura(lista):
 
     print(Fore.YELLOW + f"🧐 No se encontró ninguna criatura con el nombre '{nombre}'." + RESET)
 
+# 📜 Mostrar todas las criaturas
 def mostrar_todas(lista):
     if not lista:
         print(Fore.YELLOW + "🌫️ No hay criaturas registradas.")
@@ -96,6 +122,8 @@ def mostrar_todas(lista):
         print(f"{color}{i}. {criatura['nombre'].capitalize()} (Nivel {criatura['nivel']}) - Tipo: {tipo.capitalize()}{RESET}")
         if criatura.get("etiquetas"):
             print(Fore.LIGHTBLACK_EX + f"   🏷️ Etiquetas: {', '.join(criatura['etiquetas'])}" + RESET)
+
+# 📂 Mostrar por tipo
 def mostrar_por_tipo(lista):
     if not lista:
         print(Fore.YELLOW + "🌫️ No hay criaturas registradas.")
@@ -106,21 +134,18 @@ def mostrar_por_tipo(lista):
     for tipo in tipos:
         print(f"- {tipo.capitalize()}")
 
-    tipo_buscar = input("¿Qué tipo quieres mostrar?: ").strip().lower()
+    tipo_buscar = limpiar_input(input("¿Qué tipo quieres mostrar?: "), "lower")
     criaturas_filtradas = [c for c in lista if c["tipo"] == tipo_buscar]
 
     if criaturas_filtradas:
         print(Fore.MAGENTA + f"\n📜 Criaturas del tipo '{tipo_buscar.capitalize()}':")
         color_tipo = TIPO_COLORES.get(tipo_buscar, Fore.WHITE)
-
         for i, criatura in enumerate(criaturas_filtradas, 1):
-            print(
-                f"{color_tipo}{i}. {criatura['nombre'].capitalize()} "
-                f"(Nivel {criatura['nivel']}){RESET}"
-            )
+            print(f"{color_tipo}{i}. {criatura['nombre'].capitalize()} (Nivel {criatura['nivel']}){RESET}")
     else:
         print(Fore.RED + "❌ No se encontraron criaturas de ese tipo.")
 
+# 🛠️ Editar criatura
 def editar_criatura(lista):
     if not lista:
         print(Fore.YELLOW + "🌫️ No hay criaturas para editar.")
@@ -129,7 +154,7 @@ def editar_criatura(lista):
     mostrar_todas(lista)
 
     try:
-        index = int(input("Número de la criatura que quieres editar: ")) - 1
+        index = int(input("Número de la criatura que quieres editar: ").strip()) - 1
         if index < 0 or index >= len(lista):
             print(Fore.RED + "❌ Número fuera de rango.")
             return
@@ -142,12 +167,13 @@ def editar_criatura(lista):
 
     nuevo_nombre = input(f"Nuevo nombre (Enter para mantener '{criatura['nombre']}'): ").strip()
     if nuevo_nombre:
-        criatura['nombre'] = nuevo_nombre
+        criatura['nombre'] = limpiar_input(nuevo_nombre, "capitalize")
 
-    nuevo_tipo = input(f"Nuevo tipo (Enter para mantener '{criatura['tipo']}'): ").strip().lower()
+    nuevo_tipo = input(f"Nuevo tipo (Enter para mantener '{criatura['tipo']}'): ").strip()
     if nuevo_tipo:
-        if nuevo_tipo in TIPOS_VALIDOS:
-            criatura['tipo'] = nuevo_tipo
+        nuevo_tipo_limpio = limpiar_input(nuevo_tipo, "lower")
+        if nuevo_tipo_limpio in TIPOS_VALIDOS:
+            criatura['tipo'] = nuevo_tipo_limpio
         else:
             print(Fore.RED + f"⚠️ Tipo no válido. Se mantiene el actual: {criatura['tipo']}")
 
@@ -164,6 +190,6 @@ def editar_criatura(lista):
 
     nuevas_etiquetas = input("Nuevas etiquetas (coma separadas, Enter para mantener las actuales): ").strip()
     if nuevas_etiquetas:
-        criatura['etiquetas'] = [e.strip().lower() for e in nuevas_etiquetas.split(",") if e.strip()]
+        criatura['etiquetas'] = [limpiar_input(e, "lower") for e in nuevas_etiquetas.split(",") if e.strip()]
 
     print(Fore.GREEN + "✅ Criatura editada correctamente.")

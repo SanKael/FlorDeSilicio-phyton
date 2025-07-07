@@ -5,7 +5,7 @@ from modules.utils import (
     eliminar_criatura,
     mostrar_todas,
     mostrar_por_tipo,
-    editar_criatura
+    editar_criatura,
 )
 from core.file_handler import guardar_en_json, cargar_desde_json, guardar_en_txt, cargar_desde_txt
 from core.menu import mostrar_menu
