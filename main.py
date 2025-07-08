@@ -12,6 +12,13 @@ from core.menu import mostrar_menu
 from core.config import DEBUG, RESET
 import os
 
+DRAMATIC_MODE = False  # Cambia a False para desactivarlo
+
+from modules.utils import cuenta_atras_dramatica
+
+if DRAMATIC_MODE:
+    cuenta_atras_dramatica()
+
 init(autoreset=True)
 
 def limpiar_pantalla():

@@ -1,6 +1,6 @@
-from colorama import Fore
+from colorama import Fore, Style # Importa Fore y Style de colorama
 from core.config import TIPO_COLORES, RESET, TIPOS_VALIDOS, DEBUG
-
+import time
 # 🔧 Función universal para limpiar entradas de texto
 def limpiar_input(texto, formato="lower"):
     texto = texto.strip()
@@ -193,3 +193,10 @@ def editar_criatura(lista):
         criatura['etiquetas'] = [limpiar_input(e, "lower") for e in nuevas_etiquetas.split(",") if e.strip()]
 
     print(Fore.GREEN + "✅ Criatura editada correctamente.")
+
+def cuenta_atras_dramatica():
+    print(Fore.LIGHTBLACK_EX + "\nActivando modo dramático..." + Style.RESET_ALL)
+    for i in range(5, 0, -1):
+        print(Fore.LIGHTYELLOW_EX + f"⏳ {i}..." + Style.RESET_ALL)
+        time.sleep(1)
+    print(Fore.RED + "🔥 ¡Lanzamiento!" + Style.RESET_ALL)
