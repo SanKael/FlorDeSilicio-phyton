@@ -16,6 +16,32 @@ def limpiar_input(texto, formato="lower"):
 def es_input_valido(texto):
     texto = texto.strip()
     return any(c.isalnum() for c in texto)
+# 🔧 Función para validar el nivel de la criatura
+def validar_nivel(input_str):
+    """
+    Recibe una cadena, intenta convertirla a entero y valida que esté entre 1 y 100.
+    Devuelve el número si es válido, o None si no lo es.
+    """
+    try:
+        nivel = int(input_str.strip())
+        if 1 <= nivel <= 100:
+            return nivel
+        else:
+            print(Fore.RED + "⚠️ El nivel debe estar entre 1 y 100.")
+    except ValueError:
+        print(Fore.RED + "⚠️ Debes escribir un número válido.")
+    return None
+# 🔧 Función para validar opciones del menú
+def validar_opcion_menu(input_str, opciones_validas):
+    try:
+        opcion = int(input_str.strip())
+        if opcion in opciones_validas:
+            return opcion
+        else:
+            print(Fore.RED + f"⚠️ Debes elegir una opción entre {min(opciones_validas)} y {max(opciones_validas)}.")
+    except ValueError:
+        print(Fore.RED + "⚠️ Debes escribir un número válido.")
+    return None
 
 # 🐣 Añadir criatura
 def añadir_criatura(lista):
@@ -44,18 +70,10 @@ def añadir_criatura(lista):
             break
 
     while True:
-        nivel_input = input("Nivel de la criatura (1–100): ").strip()
-        if nivel_input.lower() == "cancelar":
-            print("🚪 Añadir criatura cancelado.")
-            return
-        try:
-            nivel = int(nivel_input)
-            if 1 <= nivel <= 100:
-                break
-            else:
-                print(Fore.RED + "⚠️ El nivel debe estar entre 1 y 100.")
-        except ValueError:
-            print(Fore.RED + "⚠️ El nivel debe ser un número.")
+        nivel_input = input("Nivel de la criatura (1–100): ")
+        nivel = validar_nivel(nivel_input)
+        if nivel is not None:
+            break
 
     etiquetas_input = input("Etiquetas (coma separadas, opcional): ").strip()
     if etiquetas_input.lower() == "cancelar":
@@ -176,17 +194,14 @@ def editar_criatura(lista):
             criatura['tipo'] = nuevo_tipo_limpio
         else:
             print(Fore.RED + f"⚠️ Tipo no válido. Se mantiene el actual: {criatura['tipo']}")
+    nuevo_nivel = input(f"Nuevo nivel (1–100, Enter para mantener {criatura['nivel']}): ").strip()
+    if nuevo_nivel:
+        nivel_valido = validar_nivel(nuevo_nivel)
+        if nivel_valido is not None:
+            criatura['nivel'] = nivel_valido
+        else:
+            print(Fore.LIGHTBLACK_EX + "ℹ️ Se mantiene el nivel actual.")
 
-    try:
-        nuevo_nivel = input(f"Nuevo nivel (1–100, Enter para mantener {criatura['nivel']}): ").strip()
-        if nuevo_nivel:
-            nivel_int = int(nuevo_nivel)
-            if 1 <= nivel_int <= 100:
-                criatura['nivel'] = nivel_int
-            else:
-                print(Fore.RED + "⚠️ Nivel fuera de rango. Se mantiene el actual.")
-    except ValueError:
-        print(Fore.RED + "⚠️ Nivel inválido. Se mantiene el actual.")
 
     nuevas_etiquetas = input("Nuevas etiquetas (coma separadas, Enter para mantener las actuales): ").strip()
     if nuevas_etiquetas:

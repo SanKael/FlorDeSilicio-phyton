@@ -43,5 +43,11 @@
       "suelo",
       "queso"
     ]
+  },
+  {
+    "nombre": "Moussy",
+    "tipo": "fantasma",
+    "nivel": 9,
+    "etiquetas": []
   }
 ]
